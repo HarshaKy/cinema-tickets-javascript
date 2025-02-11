@@ -33,9 +33,7 @@ export default class TicketService {
         }
 
         for (const ticketTypeRequest of ticketTypeRequests) {
-            if (!(ticketTypeRequest instanceof TicketTypeRequest)) {
-                throw new InvalidInputException('ticketTypeRequests must be an array of TicketTypeRequest objects');
-            }
+            this.#validateRequest(ticketTypeRequest)
         }
     }
 
@@ -48,6 +46,9 @@ export default class TicketService {
     #validateRequest(ticketTypeRequest) {
         // additional validation for ticketTypeRequest
         // ensures noOfTickets is not below 0
+        if (!(ticketTypeRequest instanceof TicketTypeRequest)) {
+            throw new InvalidInputException('ticketTypeRequests must be an array of TicketTypeRequest objects');
+        }
 
         const noOfTickets = ticketTypeRequest.getNoOfTickets()
         const ticketType = ticketTypeRequest.getTicketType()
@@ -81,8 +82,6 @@ export default class TicketService {
             const noOfTickets = request.getNoOfTickets()
             totalTickets += noOfTickets
 
-            this.#validateRequest(request)
-            
             switch (request.getTicketType()) {
                 case 'ADULT':
                     hasAdultTicket = true
