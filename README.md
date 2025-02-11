@@ -1,7 +1,7 @@
 # Cinema Tickets - JavaScript Solution
 
 ## Overview
-My implementation of the [TicketService](https://github.com/HarshaKy/cinema-tickets-javascript/blob/master/src/pairtest/TicketService.js) in JavaScript.
+My implementation of the [TicketService](https://github.com/HarshaKy/cinema-tickets-javascript/blob/master/src/pairtest/TicketService.js) in JavaScript as per the [rules and objectives](https://github.com/HarshaKy/cinema-tickets-javascript/tree/master/src#readme).
 
 The implementation includes:
 - Core functionality for calculating total ticket price and number of seats.
