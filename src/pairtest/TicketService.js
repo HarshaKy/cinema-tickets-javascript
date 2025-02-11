@@ -17,6 +17,9 @@ export default class TicketService {
      * @throws {InvalidInputException} if input is invalid
      */
     #validateInput = (accountId, ticketTypeRequests) => {
+        // contains additional validation
+        // ensuring accountId is a positive integer and ticketTypeRequests is an array 
+
         if (!Number.isInteger(accountId) || accountId < 1) {
             throw new InvalidInputException('accountId must be a positive integer');
         }
@@ -43,6 +46,9 @@ export default class TicketService {
      * @throws {InvalidInputException} if input is invalid
      */
     #validateRequest(ticketTypeRequest) {
+        // additional validation for ticketTypeRequest
+        // ensures noOfTickets is not below 0
+
         const noOfTickets = ticketTypeRequest.getNoOfTickets()
         const ticketType = ticketTypeRequest.getTicketType()
 
@@ -70,6 +76,7 @@ export default class TicketService {
         let infantTickets = 0
         let hasAdultTicket = false
 
+        // loop through each request and calculate total amount and seats
         ticketTypeRequests.forEach(request => {
             const noOfTickets = request.getNoOfTickets()
             totalTickets += noOfTickets
@@ -106,6 +113,9 @@ export default class TicketService {
             throw new InvalidPurchaseException('Maximum of 25 tickets can be purchased')
         }
 
+        // limit 2 infants per adult
+        // this can be changed based on requirements
+        // since there was nothing specified about the limit, 2 was chosen
         if (infantTickets / adultTickets > 2) {
             throw new InvalidPurchaseException('Maximum of 2 infants per adult allowed')
         }
