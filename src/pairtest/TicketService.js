@@ -3,8 +3,19 @@ import InvalidPurchaseException from './lib/InvalidPurchaseException.js';
 import InvalidInputException from './lib/InvalidInputException.js';
 import TicketPaymentService from '../thirdparty/paymentgateway/TicketPaymentService.js';
 import SeatReservationService from '../thirdparty/seatbooking/SeatReservationService.js';
+
+/**
+ * @typedef {import('./lib/TicketTypeRequest.js').default} TicketTypeRequest
+ */
 export default class TicketService {
 
+    /**
+     * Input validation for purchaseTickets
+     * 
+     * @param {number} accountId 
+     * @param {TicketTypeRequest[]} ticketTypeRequests 
+     * @throws {InvalidInputException} if input is invalid
+     */
     #validateInput = (accountId, ticketTypeRequests) => {
         if (!Number.isInteger(accountId) || accountId < 1) {
             throw new InvalidInputException('accountId must be a positive integer');
@@ -25,6 +36,12 @@ export default class TicketService {
         }
     }
 
+    /**
+     * Validate ticket type request
+     * 
+     * @param {TicketTypeRequest} ticketTypeRequest 
+     * @throws {InvalidInputException} if input is invalid
+     */
     #validateRequest(ticketTypeRequest) {
         const noOfTickets = ticketTypeRequest.getNoOfTickets()
         const ticketType = ticketTypeRequest.getTicketType()
@@ -38,6 +55,13 @@ export default class TicketService {
         }
     }
 
+    /**
+     * Calculate total amount to pay and total seats to allocate
+     * 
+     * @param {TicketTypeRequest[]} ticketTypeRequests 
+     * @throws {InvalidPurchaseException} if purchase is invalid
+     * @returns {number[]} [totalAmountToPay, totalSeatsToAllocate]
+     */
     #getAmountandSeats(ticketTypeRequests) {
         let totalTickets = 0
         let totalAmountToPay = 0
@@ -89,6 +113,13 @@ export default class TicketService {
         return [totalAmountToPay, totalSeatsToAllocate]
     }
 
+    /**
+     * Purchase tickets for the given account ID
+     * 
+     * @param {number} accountId - account ID for the purchase
+     * @param  {...TicketTypeRequest} ticketTypeRequests - array of TicketTypeRequest objects
+     * @throws {InvalidInputException || InvalidPurchaseException} if input or purchase is invalid
+     */
     purchaseTickets(accountId, ...ticketTypeRequests) {
         this.#validateInput(accountId, ticketTypeRequests);
 
